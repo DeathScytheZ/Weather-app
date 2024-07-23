@@ -36,6 +36,7 @@ btn.addEventListener('click', async () =>{
 
 
 function setWeatherInfo(data){
+    const info_container = document.getElementsByClassName('info-container')[0];
     const cityName = document.getElementById('city-name');
     const temp = document.getElementById('temp');
     const description = document.getElementById('description');
@@ -44,12 +45,15 @@ function setWeatherInfo(data){
     const sunset = document.getElementById('sunset');
     const min_temp = document.getElementById('min-temp');
     const max_temp = document.getElementById('max-temp');
+    info_container.style.display = 'flex';
     cityName.innerHTML = data.name;
     temp.innerHTML = 'Temperature: ' + data.main.temp +  '°';
     description.innerHTML = data.weather[0].description; 
     humidity.innerHTML = 'Humidity: ' + data.main.humidity + ' %';
-    sunrise.innerHTML = 'Sunrise: ' + data.sys.sunrise;
-    sunset.innerHTML = 'Sunset: ' + data.sys.sunset;
+    // sunrise.innerHTML = 'Sunrise: ' + data.sys.sunrise;
+    // sunset.innerHTML = 'Sunset: ' + data.sys.sunset;
+    sunrise.innerHTML = new Date(data.sys.sunrise * 1000);
+    sunset.innerHTML = new Date(data.sys.sunset * 1000);
     min_temp.innerHTML = 'Minimum Temperature: ' + data.main.temp_min +  '°';
     max_temp.innerHTML = 'Maximum Temperature: ' + data.main.temp_max +  '°';
 }
@@ -62,4 +66,10 @@ function setWeatherIcon(data){
     const img_src = `https://openweathermap.org/img/wn/${icon}@2x.png`
     img.src = img_src;
     img.style.display = 'block';
+}
+
+
+
+function setTimeZone(){
+
 }
