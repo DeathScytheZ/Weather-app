@@ -64,7 +64,7 @@ function setWeatherIcon(data){
 
 
 function formatTwoDigits(time){
-    if(time <= 9 || time % 10 == 0){
+    if(time <= 9){
         return '0' + time; 
     }
     return time;
