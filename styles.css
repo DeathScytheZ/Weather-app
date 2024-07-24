@@ -31,6 +31,7 @@ body{
 #sub-btn:hover{
     background-color: rgb(7, 91, 156);
     cursor: pointer;
+    border: 1px solid white;
 }
 
 
@@ -38,7 +39,7 @@ body{
 
 .info-container{
     min-width: 40dvh;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid rgb(0, 0, 0);

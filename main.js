@@ -23,9 +23,9 @@ btn.addEventListener('click', async () =>{
         if(city){
             const data = await getWeatherData(city);
             setWeatherInfo(data);
+            setTimeZone(data);
             setWeatherIcon(data);
             console.log(data);
-
         }
         else
             console.error('input field is empty!');
@@ -36,24 +36,16 @@ btn.addEventListener('click', async () =>{
 
 
 function setWeatherInfo(data){
-    const info_container = document.getElementsByClassName('info-container')[0];
     const cityName = document.getElementById('city-name');
     const temp = document.getElementById('temp');
     const description = document.getElementById('description');
     const humidity = document.getElementById('humidity');
-    const sunrise = document.getElementById('sunrise');
-    const sunset = document.getElementById('sunset');
     const min_temp = document.getElementById('min-temp');
     const max_temp = document.getElementById('max-temp');
-    info_container.style.display = 'flex';
     cityName.innerHTML = data.name;
     temp.innerHTML = 'Temperature: ' + data.main.temp +  '°';
     description.innerHTML = data.weather[0].description; 
     humidity.innerHTML = 'Humidity: ' + data.main.humidity + ' %';
-    // sunrise.innerHTML = 'Sunrise: ' + data.sys.sunrise;
-    // sunset.innerHTML = 'Sunset: ' + data.sys.sunset;
-    sunrise.innerHTML = new Date(data.sys.sunrise * 1000);
-    sunset.innerHTML = new Date(data.sys.sunset * 1000);
     min_temp.innerHTML = 'Minimum Temperature: ' + data.main.temp_min +  '°';
     max_temp.innerHTML = 'Maximum Temperature: ' + data.main.temp_max +  '°';
 }
@@ -70,6 +62,32 @@ function setWeatherIcon(data){
 
 
 
-function setTimeZone(){
 
+function formatTwoDigits(time){
+    if(time <= 9 || time % 10 == 0){
+        return '0' + time; 
+    }
+    return time;
+}
+
+
+
+function setTimeZone(data){
+    const sunrise = document.getElementById('sunrise');
+    const sunset = document.getElementById('sunset');
+    let sunriseTime = data.sys.sunrise;
+    let sunsetTime = data.sys.sunset;
+    const timezoneOffset = data.timezone;
+    console.log(new Date(sunriseTime * 1000));
+    console.log(new Date(sunsetTime * 1000));
+    sunriseTime += timezoneOffset;
+    sunsetTime += timezoneOffset;
+    sunriseTime = new Date(sunriseTime * 1000);
+    sunsetTime = new Date(sunsetTime * 1000);
+    const sunriseHour = sunriseTime.getUTCHours();
+    const sunriseMinutes = sunriseTime.getUTCMinutes();
+    const sunsetHour = sunsetTime.getUTCHours();
+    const sunsetMinutes = sunsetTime.getUTCMinutes();
+    sunrise.innerHTML = 'Sunrise: ' + `${formatTwoDigits(sunriseHour)}:${formatTwoDigits(sunriseMinutes)}`;
+    sunset.innerHTML = 'Sunset: ' + `${formatTwoDigits(sunsetHour)}:${formatTwoDigits(sunsetMinutes)}`;
 }
