@@ -43,18 +43,18 @@ function setWeatherInfo(data){
     const min_temp = document.getElementById('min-temp');
     const max_temp = document.getElementById('max-temp');
     cityName.innerHTML = data.name;
-    temp.innerHTML = 'Temperature: ' + data.main.temp +  '°';
+    temp.innerHTML = Math.round(data.main.temp) + '°';
+    min_temp.innerHTML = Math.round(data.main.temp_min) +  '°';
+    max_temp.innerHTML = Math.round(data.main.temp_max) +  '°';
     description.innerHTML = data.weather[0].description; 
     humidity.innerHTML = 'Humidity: ' + data.main.humidity + ' %';
-    min_temp.innerHTML = 'Minimum Temperature: ' + data.main.temp_min +  '°';
-    max_temp.innerHTML = 'Maximum Temperature: ' + data.main.temp_max +  '°';
 }
 
 
 
 function setWeatherIcon(data){
     const icon = data.weather[0].icon;
-    const img = document.getElementById('test-img');
+    const img = document.getElementById('icon');
     const img_src = `https://openweathermap.org/img/wn/${icon}@2x.png`
     img.src = img_src;
     img.style.display = 'block';
@@ -78,8 +78,6 @@ function setTimeZone(data){
     let sunriseTime = data.sys.sunrise;
     let sunsetTime = data.sys.sunset;
     const timezoneOffset = data.timezone;
-    console.log(new Date(sunriseTime * 1000));
-    console.log(new Date(sunsetTime * 1000));
     sunriseTime += timezoneOffset;
     sunsetTime += timezoneOffset;
     sunriseTime = new Date(sunriseTime * 1000);
@@ -91,3 +89,7 @@ function setTimeZone(data){
     sunrise.innerHTML = 'Sunrise: ' + `${formatTwoDigits(sunriseHour)}:${formatTwoDigits(sunriseMinutes)}`;
     sunset.innerHTML = 'Sunset: ' + `${formatTwoDigits(sunsetHour)}:${formatTwoDigits(sunsetMinutes)}`;
 }
+
+
+
+

@@ -13,15 +13,31 @@
         <button id="sub-btn" type="submit"> Get weather </button>
     </div>
     <div class="info-container">
-        <h1 id="city-name"> Enter the name of your city </h1>
-        <p class="item" id="temp"> The weather data will be displayed here </p>
-        <p class="item" id="description"> </p>
-        <img class="item" id="test-img" src="">
+        <h1 id="city-name"> </h1>
+        <div class="main-info">
+            <div class="temp-info">
+                <div class="main-temp">
+                    <p class="item" id="temp"> </p>
+                    <span class="bar"> | </span>
+                </div>
+                <div class="min-max-temp">
+                    <p class="item" id="min-temp"> </p>
+                    <span class="slash"> / </span>
+                    <p class="item" id="max-temp"> </p>
+                </div>
+            </div>
+            <div class="sky-info">
+                <img class="item" id="icon" src="">
+                <p class="item" id="description"> </p>
+            </div>
+        </div>
         <p class="item" id="humidity"> </p>
+        <p class="item" id="feels-like"></p>
+        <p class="item" id="pressure"></p>
+        <p class="item" id="wind-speed"></p>
+        <p class="item" id="wind-degree"></p>
         <p class="item" id="sunrise"> </p>
         <p class="item" id="sunset"> </p>
-        <p class="item" id="min-temp"> </p>
-        <p class="item" id="max-temp"> </p>
     </div>
     <script src="main.js"></script>
 </body>
