@@ -38,16 +38,25 @@ btn.addEventListener('click', async () =>{
 function setWeatherInfo(data){
     const cityName = document.getElementById('city-name');
     const temp = document.getElementById('temp');
+    const minTemp = document.getElementById('min-temp');
+    const maxTemp = document.getElementById('max-temp');
     const description = document.getElementById('description');
     const humidity = document.getElementById('humidity');
-    const min_temp = document.getElementById('min-temp');
-    const max_temp = document.getElementById('max-temp');
+    const feelsLike = document.getElementById('feels-like');
+    const pressure = document.getElementById('pressure');
+    const windSpeed = document.getElementById('wind-speed');
+    const windDegree = document.getElementById('wind-degree')
     cityName.innerHTML = data.name;
     temp.innerHTML = Math.round(data.main.temp) + '°';
-    min_temp.innerHTML = Math.round(data.main.temp_min) +  '°';
-    max_temp.innerHTML = Math.round(data.main.temp_max) +  '°';
+    minTemp.innerHTML = Math.round(data.main.temp_min) +  '°';
+    maxTemp.innerHTML = Math.round(data.main.temp_max) +  '°';
     description.innerHTML = data.weather[0].description; 
-    humidity.innerHTML = 'Humidity: ' + data.main.humidity + ' %';
+    humidity.innerHTML = 'Humidity:  ' + data.main.humidity + ' %';
+    feelsLike.innerHTML = 'Feels like:  ' + Math.round(data.main.feels_like) + '°';
+    pressure.innerHTML = 'Pressure:  ' + (data.main.pressure) + ' mbar';
+    windSpeed.innerHTML = 'Wind speed:  ' + ((data.wind.speed) * 3.6).toFixed(2) + ' Km/h';
+    windDegree.innerHTML = 'Wind direction:  ' + getWindDirection(data.wind.deg) + ' (' + data.wind.deg + '°' + ')';
+    
 }
 
 
@@ -93,3 +102,8 @@ function setTimeZone(data){
 
 
 
+function getWindDirection(degree){
+    const directions = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"];
+    const index = Math.round((degree / 45) % 8);
+    return directions[index];
+}
