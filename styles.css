@@ -5,8 +5,10 @@ body{
     align-items: center;
     background: rgb(3,40,66);
     background: linear-gradient(45deg, rgba(3,40,66,1) 0%, rgba(5,60,107,1) 17%, rgba(135,206,235,1) 90%);
-    
-}
+}   
+
+
+
 
 .input-container{
     margin-top: 50px;
