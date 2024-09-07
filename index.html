@@ -19,57 +19,63 @@
             <div class="temp-info">
                 <div class="main-temp">
                     <p class="item" id="temp"> </p>
-                    <span class="bar"> | </span>
                 </div>
-                <div class="min-max-temp">
-                    <p class="item" id="min-temp"> </p>
-                    <span class="slash"> / </span>
-                    <p class="item" id="max-temp"> </p>
+                <div class="real-feel">
+                    <p class="item" id="feels-like"></p>
                 </div>
             </div>
+            <span class="bar"> | </span>
             <div class="sky-info">
                 <img class="item" id="icon" src="">
                 <p class="item" id="description"> </p>
             </div>
         </div>
-        <p class="item" id="humidity"> </p>
-        <p class="item" id="feels-like"></p>
-        <p class="item" id="pressure"></p>
-        <p class="item" id="wind-speed"></p>
-        <p class="item" id="wind-degree"></p>
-        <p class="item" id="sunrise"> </p>
-        <p class="item" id="sunset"> </p>
+        <div class="secondary-info">
+            <div class="air-info">
+                <p class="item" id="humidity"> </p>
+                <p class="item" id="pressure"></p>
+            </div>
+            <div class="wind-info">
+                <p class="item" id="wind-speed"></p>
+                <p class="item" id="wind-degree"></p>
+            </div>
+        </div>
+        <div class="sun-info">
+            <div class="sunrise">
+                <p class="item" id="sunrise-time"> </p>
+                <img src="sunrise.png" id="sunrise-icon">
+            </div>
+            <div class="sunset">
+                <p class="item" id="sunset-time"> </p>
+                <img src="sunset.png" id="sunset-icon">
+            </div>
+        </div>
         <div class="forecast">
             <div class="days" id="day1"> 
-                <h2></h2>
-                <p></p>
+                <h2 class="date"></h2>
                 <img src="">
+                <p></p>
             </div>
             <div class="days" id="day2">
-                <h2></h2>
-                <p></p>
+                <h2 class="date"></h2>
                 <img src="">
-            </div>
-            <div class="days" id="day2">
-                <h2></h2>
                 <p></p>
-                <img src="">
             </div>
             <div class="days" id="day3">
-                <h2></h2>
-                <p></p>
+                <h2 class="date"></h2>
                 <img src="">
+                <p></p>
+            </div>
+            <div class="days" id="day4">
+                <h2 class="date"></h2>
+                <img src="">
+                <p></p>
             </div>
             <div class="days" id="day5">
-                <h2></h2>
-                <p></p>
+                <h2 class="date"></h2>
                 <img src="">
-            </div>
-            </div>
-            <div class="days" id="day6">
-                <h2></h2>
                 <p></p>
-                <img src="">
+            </div>
             </div>
         </div>
     </div>

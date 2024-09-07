@@ -15,7 +15,7 @@ async function currentWeatherData(city){
 
 
 async function forecastWeatherData(city){
-    const forecastWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+    const forecastWeatherUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
     try{
         const response = await fetch(forecastWeatherUrl);
         if(!response.ok){
@@ -30,10 +30,9 @@ async function forecastWeatherData(city){
 
 function getWindDirection(degree){
     const directions = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"];
-    le index = Math.round((degree / 45) % 8);
+    let index = Math.round((degree / 45) % 8);
     if(index === 8)
         index = 0;
-    console.log(index);
     return directions[index];
 }
 
@@ -41,8 +40,6 @@ function getWindDirection(degree){
 function setCurrentInfo(currentData){
     const cityName = document.getElementById('city-name');
     const temp = document.getElementById('temp');
-    const minTemp = document.getElementById('min-temp');
-    const maxTemp = document.getElementById('max-temp');
     const description = document.getElementById('description');
     const humidity = document.getElementById('humidity');
     const feelsLike = document.getElementById('feels-like');
@@ -51,8 +48,6 @@ function setCurrentInfo(currentData){
     const windDegree = document.getElementById('wind-degree');
     cityName.innerHTML = currentData.name;
     temp.innerHTML = Math.round(currentData.main.temp) + '°';
-    minTemp.innerHTML = Math.round(currentData.main.temp_min) +  '°';
-    maxTemp.innerHTML = Math.round(currentData.main.temp_max) +  '°';
     description.innerHTML = currentData.weather[0].description; 
     humidity.innerHTML = 'Humidity:  ' + currentData.main.humidity + ' %';
     feelsLike.innerHTML = 'Feels like:  ' + Math.round(currentData.main.feels_like) + '°';
@@ -65,7 +60,7 @@ function setCurrentInfo(currentData){
 function setWeatherIcon(currentData){
     const icon = currentData.weather[0].icon;
     const img = document.getElementById('icon');
-    const img_src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+    const img_src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
     img.src = img_src;
     img.style.display = 'block';
 }
@@ -81,8 +76,8 @@ function formatTwoDigits(time){
 
 
 function setTimeZone(currentData){
-    const sunrise = document.getElementById('sunrise');
-    const sunset = document.getElementById('sunset');
+    const sunrise = document.getElementById('sunrise-time');
+    const sunset = document.getElementById('sunset-time');
     let sunriseTime = currentData.sys.sunrise;
     let sunsetTime = currentData.sys.sunset;
     const timezoneOffset = currentData.timezone;
@@ -116,31 +111,53 @@ function formatForecastData(forecastData){
             currday = date;
         }
     }
-
-
-
-
-    for(i = 0; i < 6; i++){
-        console.log('day', i + 1 , ': ');
-        for(j = 0; j < days[i].length; j++){
-            console.log(new Date(days[i][j].dt * 1000).getUTCDate(), days[i][j].dt_txt);
-        }
-    }
+    console.log(forecastData);
+    console.log(days);
+    return days;
 }
 
 
 
+function formatDay(date){
+    let day;
+    switch(date){
+        case 0: day = 'Sunday'; break;
+        case 1: day = 'Monday'; break;
+        case 2: day = 'Tuesday'; break;
+        case 3: day = 'Wednesday'; break;
+        case 4: day = 'Thursday'; break;
+        case 5: day = 'Friday'; break;
+        case 6: day = 'Saturday'; break;
+    }
+    return day;
+}   
 
 
-function setForecastInfo(){
-    const day1 = getElementById('day1');
-    const day2 = getElementById('day2');
-    const day3 = getElementById('day3');
-    const day4 = getElementById('day4');
-    const day5 = getElementById('day5');
-    const day6 = getElementById('day6');
 
+function setForecastInfo(daysData){
+    let days = [];
+    days[0] = document.getElementById('day1');
+    days[1] = document.getElementById('day2');
+    days[2] = document.getElementById('day3');
+    days[3] = document.getElementById('day4');
+    days[4] = document.getElementById('day5');
+    days[5] = document.getElementById('day6');
+    for(i = 0; i < days.length; i++){
+        if(!daysData[i][0]){
+            continue;
+        }
+        const icon = daysData[i][0].weather[0].icon;
+        const temp_data = daysData[i][0].main.temp;
+        const date = new Date(daysData[i][0].dt * 1000).getUTCDay();
+        const day_name = formatDay(date);
 
+        const week_day = document.getElementById(`day${i + 1}`).querySelector('h2');
+        const img = document.getElementById(`day${i + 1}`).querySelector('img');
+        const temp = document.getElementById(`day${i + 1}`).querySelector('p');
+        week_day.innerHTML = day_name;
+        img.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+        temp.innerHTML = temp_data + '°';
+    }
 }
 
 
@@ -150,13 +167,20 @@ document.addEventListener('DOMContentLoaded', () =>{
     btn.addEventListener('click', async () =>{
         city = document.getElementById('input-box').value;
         if(city){
-            const currentData = await currentWeatherData(city);
-            const forecastData = await forecastWeatherData(city);
+            let currentData, forecastData;
+            try{
+                [currentData, forecastData] = await Promise.all([
+                    currentWeatherData(city),
+                    forecastWeatherData(city)
+                ]);
+            }catch(error){
+                console.error('error fetching weather data', error);
+            }
             setCurrentInfo(currentData);
             setTimeZone(currentData);
             setWeatherIcon(currentData);
-            console.log(currentData);
-            console.log(forecastData);
+            setForecastInfo(formatForecastData(forecastData));
+            formatForecastData(forecastData);
         }
         else{
             console.error('input field is empty!');
