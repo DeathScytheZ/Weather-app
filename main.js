@@ -94,9 +94,6 @@ function setTimeZone(currentData){
 }
 
 
-
-
-
 function formatForecastData(forecastData){
     let days = [[], [], [], [], [], []];
     let currday = new Date(forecastData.list[0].dt * 1000);
